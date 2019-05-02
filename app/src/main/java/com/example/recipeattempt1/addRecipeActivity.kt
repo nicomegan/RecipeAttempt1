@@ -43,7 +43,7 @@ class addRecipeActivity : AppCompatActivity(), inputRecipeFragment.OnFragmentInt
 //        transaction.add(R.id.root_layout, moodGraphFragment)
 //        transaction.add(R.id.container, moodGraphFragment)
         transaction.replace(R.id.addRecipeContainer, fragment)
-        transaction!!.addToBackStack(null)
+        transaction!!.addToBackStack(inputRecipeFragment.toString()) //TODO: Make sure this is correct
 //        transaction.setTransition(FragmentTransaction)
         transaction!!.show(fragment)
         transaction!!.commit()

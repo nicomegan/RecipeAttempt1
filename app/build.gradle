@@ -4,6 +4,11 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+//Object Box
+apply plugin: 'kotlin-kapt' // if using Kotlin
+apply plugin: 'com.android.application'
+apply plugin: 'io.objectbox' // apply last
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -27,6 +32,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:design:28.0.0'
+    implementation "io.objectbox:objectbox-kotlin:$objectboxVersion" // Object Box
     implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.android.support:support-core-utils:28.0.0'
     testImplementation 'junit:junit:4.12'

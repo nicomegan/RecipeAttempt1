@@ -4,10 +4,19 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
+import io.objectbox.annotation.Entity
+import io.objectbox.annotation.Id
+import io.objectbox.kotlin.query
 import kotlinx.android.synthetic.main.activity_scrolling.*
+import java.util.*
+import android.util.Half.greater
+import io.objectbox.query.QueryBuilder
+
+
 
 class ScrollingActivity : AppCompatActivity() {
 
@@ -23,12 +32,39 @@ class ScrollingActivity : AppCompatActivity() {
 
         val testButtonVar: Button = findViewById(R.id.testButton)
 
-
-
         testButtonVar.setOnClickListener{
             val intent:Intent = Intent(this, addRecipeActivity::class.java)
             startActivity(intent)
         }
+
+
+
+        ///////////object box ////////////////////////////////////
+        val recipeBox = ObjectBox.boxStore.boxFor(Recipe::class.java)
+
+        val newTodo: Recipe = Recipe(description = "SIX", ingredients = "1 tsp sugar", instructions = "this is what you do", dateCreated = Date())
+        recipeBox.put(newTodo)
+
+        val query = recipeBox.query {
+            order(Recipe_.dateCreated)
+        }
+
+        val results = query.find()
+
+        Log.d("DATABASE_COUNT", results.count().toString())
+        Log.d("DATABASE_RESULTS", results.toString())
+
+        results.forEach({Log.d("DATABASE_RESULTS", it.toString())})
+        ///////////////////////////////////////////////////////////
+
+
+//        val builder = recipeBox.query()
+//        builder.equal(Recipe_.description, "four")
+//            .greater(Recipe_.yearOfBirth, 1970)
+//            .startsWith(Recipe_.lastName, "O")
+//        val youngJoes = builder.build().find()
+//
+//        youngJoes.forEach(Log.d("DATABASE_TEST", results.count().toString()))
 
 
 
@@ -52,3 +88,15 @@ class ScrollingActivity : AppCompatActivity() {
         }
     }
 }
+
+
+//////////////////object box////////////////////
+@Entity
+data class Recipe(
+    @Id var id:Long = 0,
+    var description:String,
+    var ingredients:String,
+    var instructions:String,
+    var dateCreated: Date
+)
+/////////////object box ////////////////////////
